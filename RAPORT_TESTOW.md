@@ -2,7 +2,19 @@
 
 Data: 13 listopada 2026, Europe/Warsaw.
 
-Stan publikacji: przygotowano źródła i wykonano testy przed publikacją. Utworzenie repozytorium i konfiguracja Pages oczekują na uwierzytelnienie w GitHub. Docelowy adres nie jest jeszcze potwierdzony jako działające wdrożenie.
+Stan publikacji: **WDROŻONO I SPRAWDZONO PUBLICZNIE**.
+
+| Element | Potwierdzony stan |
+|---|---|
+| Aplikacja | https://t-u-r-y-n.github.io/krolestwo-melodii-lary/ |
+| Repozytorium | https://github.com/T-U-R-Y-N/krolestwo-melodii-lary — publiczne |
+| GitHub Pages | Deploy from a branch, `main`, `/ (root)` |
+| HTTPS | Wymuszone w ustawieniach Pages; publiczna strona i diagnostyka działają po HTTPS |
+| Commit aplikacji | `7659559f6216510f19e0a36ef60e01c84095f419` |
+| Pierwsze wdrożenie | GitHub Actions `43329665144`: completed / success |
+| Kompletność | Wszystkie 18 plików w repozytorium odpowiadają bajtowo sprawdzonym plikom lokalnym (porównano identyfikatory Git blob) |
+
+Na publicznym adresie diagnostyka zwróciła HTTP 200 dla manifestu, ikon i `sw.js`; service worker ma stan `activated`, a sześć podstawowych plików znajduje się w pamięci offline. Manifest jest serwowany jako `application/manifest+json`, skrypt jako `application/javascript`. Zweryfikowano też otwarcie aplikacji i działanie podstawowej nawigacji po publikacji.
 
 ## Wprowadzone poprawki
 
@@ -27,9 +39,9 @@ Stan publikacji: przygotowano źródła i wykonano testy przed publikacją. Utwo
 | Garderoba | PASS | Zmiana fryzury i koloru sukienki, zachowanie po ponownym otwarciu strony |
 | Ulubione, kompozytor | PASS | Nawigacja po ulubionych, utworzenie i zapis melodii C–E–G |
 | Układ 832 × 384 | PASS w przeglądarce | Dokument aplikacji w ramce o dokładnym rozmiarze 832 × 384 CSS px, test orientacji poziomej. Klawiatura i przyciski mieszczą się wewnątrz ekranu |
-| Manifest i ścieżki | PASS lokalnie | `id`, `start_url`, `scope` = `./`; `display: standalone`, `orientation: landscape`; obie wersje manifestu identyczne; pliki istnieją |
+| Manifest i ścieżki | PASS lokalnie i publicznie | `id`, `start_url`, `scope` = `./`; `display: standalone`, `orientation: landscape`; obie wersje manifestu identyczne; pliki istnieją |
 | Ikony | PASS | PNG 192 × 192, 512 × 512, maskable 512 × 512 oraz favicon 48 × 48. Ikona maskable ma nieprzezroczyste tło |
-| Rzeczywisty service worker | PASS lokalnie | Chrome: stan `activated`, diagnostyka potwierdza obecność sześciu podstawowych zasobów w Cache Storage |
+| Rzeczywisty service worker | PASS lokalnie i publicznie | Chrome: stan `activated`, diagnostyka potwierdza obecność sześciu podstawowych zasobów w Cache Storage |
 | Uruchomienie przy niedostępnym serwerze | PASS w Chrome | Zatrzymano serwer podglądu, połączenie HTTP zwracało `Connection refused`. Odświeżenie aplikacji uruchomiło ją z pamięci, pozwoliło otworzyć Białe róże i rozpocząć odtwarzanie |
 | Obsługa offline na ścieżce projektu | PASS w symulacji | Zdarzenia service workera pod adresem `/krolestwo-melodii-lary/`: dziewięć zasobów, manifest JSON, start z parametrem, odświeżanie online, pomijanie żądań POST i innych domen |
 | Eksport JSON | PASS w Chrome | Pobrano rzeczywisty plik; zweryfikowano format, wersję, kryształki, dwie własne melodie i tekst śpiewnika |
@@ -39,7 +51,7 @@ Stan publikacji: przygotowano źródła i wykonano testy przed publikacją. Utwo
 | Detektor dźwięku | PASS w teście syntetycznym | Sygnał sinusoidalny dla wszystkich 25 wspieranych wysokości G3–G5 i test ciszy; identyfikacja nut zgodna |
 | Uruchomienie/zatrzymanie nasłuchu | PASS w teście logiki | Symulacja lokalnego strumienia, odmowy zgody i zatrzymywania ścieżek po nawigacji |
 | Nagrania i postępy poza urządzeniem | PASS w przeglądzie kodu | Brak MediaRecorder, analityki, WebSocket, sendBeacon i zewnętrznych skryptów; fetch pobiera tylko pliki aplikacji. Wyjście do zewnętrznego śpiewnika następuje wyłącznie przez świadome kliknięcie linku |
-| Publiczny GitHub Pages i jego HTTPS | OCZEKUJE | Wymaga utworzenia repozytorium i konfiguracji Pages po zalogowaniu |
+| Publiczny GitHub Pages i jego HTTPS | PASS | Publiczne repozytorium i aplikacja, udane wdrożenie GitHub Actions, `main` / root, wymuszone HTTPS i diagnostyka instalacji na publicznym adresie |
 | Instalacja i ikona na rzeczywistym Androidzie | NIE SPRAWDZONO | Brak dostępu do fizycznego urządzenia Android. Parametry manifestu są poprawne; nie są dowodem zakończonej instalacji |
 | Nasłuch rzeczywistego keyboardu przez telefon | NIE SPRAWDZONO | Środowisko testowe nie zapewnia mikrofonu telefonu i instrumentu. Sam wybór trybu oraz obsługę błędów sprawdzono, a detektor testowano syntetycznie |
 
