@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprawdź instalację — Królestwo Melodii Lary</title>
+<link rel="icon" href="./icon-192.png"><link rel="manifest" href="./manifest.webmanifest" type="application/manifest+json">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(150deg,#d5edff,#fbe1f1);color:#4c2b6d;font:600 16px/1.45 system-ui;padding:18px}main{max-width:620px;margin:auto;background:#ffffffed;border-radius:24px;padding:24px;box-shadow:0 12px 35px #785da733}h1{font-size:26px;margin:4px 0 8px}h2{font-size:19px;margin:22px 0 9px}small{font-weight:500}p{margin:10px 0}.row{padding:10px 6px;border-bottom:1px solid #e9dafa;display:flex;gap:12px}.mark{min-width:30px;font-size:23px}.why{display:block;color:#777;font-weight:500;font-size:13px;margin:3px 0 0}.btn{display:inline-block;border:0;border-radius:12px;padding:12px 14px;background:#815ae1;color:white;font-weight:800;text-decoration:none;font-size:15px;margin:6px 5px 6px 0}pre{white-space:pre-wrap;word-break:break-word;background:#f4efff;border-radius:12px;padding:12px;font-size:12px}ol{padding-left:23px}li{padding:4px 0}
+</style></head><body><main><h1>👑 Sprawdzenie instalacji</h1><p>Ta strona sprawdzi, czy Chrome może pobrać pliki aplikacji <strong>Królestwo Melodii Lary</strong>. Nie wymaga konta ani mikrofonu.</p>
+<div id="out" aria-live="polite">⏳ Sprawdzam pliki...</div>
+<h2>Jak zainstalować?</h2><ol><li>Otwórz stronę główną w Chrome, na adresie <strong>https://t-u-r-y-n.github.io/krolestwo-melodii-lary/</strong>.</li><li>Dotknij menu <strong>⋮ → Zainstaluj i utwórz skrót → Zainstaluj</strong>.</li><li>Uruchom aplikację z nowej ikony. Powinna otworzyć się bez paska adresu. Po pierwszym uruchomieniu online zamknij ją i sprawdź ponowne otwarcie bez internetu.</li></ol>
+<a class="btn" href="./">🎹 Wróć do gry</a> <button class="btn" onclick="location.reload()">🔄 Sprawdź ponownie</button>
+<h2>Szczegóły (dla rodzica)</h2><pre id="details">—</pre></main>
+<script>
+(async()=>{
+ const out=document.querySelector('#out'), details=document.querySelector('#details');
+ const checks=[]; const info=[];
+ function add(name,ok,why){checks.push({name,ok,why})}
+ async function read(path){const response=await fetch(path,{cache:'no-store'});const blob=await response.blob();info.push(path+': '+response.status+' ('+(response.headers.get('content-type')||'brak typu')+'), '+blob.size+' bajtów');return {response,blob}}
+ add('Bezpieczne połączenie HTTPS', location.protocol==='https:'||['localhost','127.0.0.1','[::1]'].includes(location.hostname),location.protocol);
+ add('Uruchomiona jako osobna aplikacja',matchMedia('(display-mode: standalone)').matches,'W przeglądarce ten wynik będzie zwykle ❌ — to normalne');
+ let manifest;
+ try {const {response,blob}=await read('./manifest.webmanifest'); manifest=JSON.parse(await blob.text());
+ const type=response.headers.get('content-type')||'';
+ add('Manifest dostępny',response.ok&&type.includes('manifest')&&!!manifest.name,'HTTP '+response.status+' · '+type);
+ add('Manifest z pełnymi danymi',!!manifest.start_url&&!!manifest.scope&&['standalone','fullscreen','minimal-ui'].includes(manifest.display),JSON.stringify({name:manifest.name,start:manifest.start_url,scope:manifest.scope,display:manifest.display}));
+ }catch(e){add('Manifest dostępny',false,String(e))}
+ for(const size of [192,512]){
+  try {const icon=(manifest?.icons||[]).find(x=>x.sizes===size+'x'+size&&x.purpose?.includes('any'));
+   if(!icon){add('Ikona '+size+'×'+size,false,'Brak wpisu w manifeście');continue}
+   const {response,blob}=await read(icon.src);const img=await createImageBitmap(blob);add('Ikona '+size+'×'+size,response.ok&&img.width===size&&img.height===size, 'HTTP '+response.status+' · '+img.width+'×'+img.height);img.close();
+  }catch(e){add('Ikona '+size+'×'+size,false,String(e))}
+ }
+ try {const {response}=await read('./sw.js');add('Plik trybu offline',response.ok,'HTTP '+response.status)}catch(e){add('Plik trybu offline',false,String(e))}
+ if('serviceWorker' in navigator){
+ try{const reg=await navigator.serviceWorker.register('./sw.js',{scope:'./'});await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(new Error('Limit czasu rejestracji 7 s')),7000))]);add('Service worker aktywny',!!reg.active,'Status: '+(reg.active?.state||'brak'))}catch(e){add('Service worker aktywny',false,String(e))}
+ }else add('Service worker aktywny',false,'Przeglądarka nie obsługuje');
+ try{
+ const paths=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
+ const cached=await Promise.all(paths.map(async p=>!!(await caches.match(new URL(p,location.href).href))));
+ add('Pliki zapisane offline',cached.every(Boolean),cached.filter(Boolean).length+'/'+paths.length+' podstawowych plików');
+ }catch(e){add('Pliki zapisane offline',false,String(e))}
+ const essential=checks.filter(c=>!c.name.startsWith('Uruchomiona'));
+ const fail=essential.filter(c=>!c.ok).length;
+ out.innerHTML='<p><strong>'+(!fail?'✅ Pliki instalacyjne wyglądają poprawnie.':'⚠️ Wykryto '+fail+' problemów z instalacją.')+'</strong></p>'+checks.map(c=>'<div class="row"><span class="mark">'+(c.ok?'✅':'❌')+'</span><div>'+c.name+'<span class="why">'+c.why.replaceAll('<','&lt;')+'</span></div></div>').join('')+(fail?'':'<p>To potwierdza przygotowanie plików, nie instalację na Androidzie. Otwórz grę, dotknij dowolnego przycisku i sprawdź menu instalowania w Chrome. Nie trzeba instalować APK ani zmieniać ustawień „nieznanych źródeł”.</p>');
+ details.textContent='Adres: '+location.href+'\nPrzeglądarka: '+navigator.userAgent+'\n\n'+info.join('\n');
+})();
+</script></body></html>
