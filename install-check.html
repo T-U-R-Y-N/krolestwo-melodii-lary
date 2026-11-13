@@ -16,7 +16,7 @@
  function add(name,ok,why){checks.push({name,ok,why})}
  async function read(path){const response=await fetch(path,{cache:'no-store'});const blob=await response.blob();info.push(path+': '+response.status+' ('+(response.headers.get('content-type')||'brak typu')+'), '+blob.size+' bajtów');return {response,blob}}
  add('Bezpieczne połączenie HTTPS', location.protocol==='https:'||['localhost','127.0.0.1','[::1]'].includes(location.hostname),location.protocol);
- add('Uruchomiona jako osobna aplikacja',matchMedia('(display-mode: standalone)').matches,'W przeglądarce ten wynik będzie zwykle ❌ — to normalne');
+ add('Uruchomiona jako osobna aplikacja',(matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches),'W przeglądarce ten wynik będzie zwykle ❌ — to normalne');
  let manifest;
  try {const {response,blob}=await read('./manifest.webmanifest'); manifest=JSON.parse(await blob.text());
  const type=response.headers.get('content-type')||'';

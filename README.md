@@ -15,7 +15,7 @@ W v0.9.0 poprawiono nuty, oktawy, pauzy i tempo trzech utworów według PDF rodz
 
 Otwórz adres HTTPS w Chrome, dotknij serca i wybierz instalowanie w menu Chrome lub kąciku rodzica. Uruchom z nowej ikony. Nie potrzeba APK ani instalacji z nieznanych źródeł.
 
-Manifest uruchamia kolaż w pionie. Serce prosi o pełny ekran i poziom dla menu oraz keyboardu. Przycisk pełnego ekranu filmu prosi o orientację zgodną z jego wymiarami. Zachowane są proporcje i cały kadr. Automatyczny obrót zależy od urządzenia i przeglądarki. W zwykłej karcie schowanie interfejsu Chrome wymaga działania użytkownika.
+Manifest preferuje pełny ekran PWA (fullscreen), z zapasem standalone, i uruchamia kolaż w pionie. Serce prosi o pełny ekran i poziom dla menu oraz keyboardu. Przycisk pełnego ekranu filmu prosi o orientację zgodną z jego wymiarami. Zachowane są proporcje i cały kadr. Automatyczny obrót zależy od urządzenia i przeglądarki. W zwykłej karcie schowanie interfejsu Chrome wymaga działania użytkownika.
 
 Diagnostyka: [install-check.html](./install-check.html). Potwierdza pliki i zapis offline; instalację potwierdza dopiero rzeczywiste uruchomienie z ikony na telefonie. Próba fizycznego Androida i mikrofonu z PSR-74 wymaga osobnego odbioru.
 

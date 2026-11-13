@@ -16,7 +16,7 @@ Data: 13 listopada 2026, Europe/Warsaw. Dokładne identyfikatory publikacji i su
 | Nawigacja | Ekran wejścia ma jeden przycisk; powrót z garderoby zachowuje piosenkę; kolaż pomijany w stosie powrotu |
 | Mikrofon | 25 syntetycznych wysokości, cisza, odmowa pozwolenia, start i zatrzymanie ścieżek po wyjściu |
 | Dane | Stary klucz, aliasy i eksport v1; wszystkie pola przeniesione między dwiema niezależnymi instancjami; błędny JSON nie niszczy stanu |
-| PWA | Manifest standalone, pionowy start kolażu, względne ID/scope/start, istniejące ikony |
+| PWA | Preferowany fullscreen, zapas standalone, pionowy start kolażu, względne ID/scope/start, istniejące ikony |
 | SW | 14 zasobów, offline, zapas dla URL z parametrem, brak ingerencji w inne projekty i duże filmy |
 | Oryginalne filmy | Rozmiary i SHA-256 wszystkich ośmiu części oraz połączonych plików zgodne z oryginałami Drive |
 | Zapis filmów | Uszkodzone dane, anulowanie i błąd pamięci nie tworzą fałszywego statusu gotowości ani nie zastępują dobrej kopii |
@@ -43,3 +43,15 @@ Kod obsługuje pełny zapis i jego błędy, a testy kontrolowane przechodzą, al
 Instalacji z ikoną i braku paska na fizycznym Androidzie; automatycznego obrotu kolażu/filmów na tym urządzeniu; mikrofonu z prawdziwym Yamaha PSR-74; niezależnej poprawności muzycznej całych 25 opracowań. Kontrola API, manifestu i źródłowych nut nie zastępuje tych prób. Pełny ekran może wymagać zaufanego dotknięcia i może być ograniczony przez przeglądarkę lub osadzenie w ramce.
 
 Znane rozbieżności metryczne pozostałych pieśni zachowano w audit-patriotic-meter.json. Własny śpiewnik rodzica ma pierwszeństwo przed nowym tekstem domyślnym.
+
+## Dodatkowe potwierdzenie po wyłączeniu serwera
+
+Wyłączono lokalny serwer przez sites-preview stop i niezależnym żądaniem potwierdzono Connection refused. Następnie przeładowano stronę w Chrome: powrócił kolaż, zadziałało wejście i nawigacja do filmów. Pierwszy film odczytano ponownie z pamięci; odtwarzacz dotarł do końca 21,108267 s, readyState 4, 720×1280, bez błędu. To potwierdza offline podstawowej aplikacji i pierwszego filmu w środowisku testowym.
+
+Diagnostyka interfejsu zgłosiła poprawny HTTPS/lokalny bezpieczny kontekst, oba rozmiary ikon, manifest, aktywny SW i pliki offline. Pełny ekran wywołany w ramce testowej nie został potwierdzony; orientację sprzętową pozostawiono do odbioru Androida.
+
+## Publikacja
+
+Kod aplikacji: commit 9fcb3070c5d651a201779a5cc815b91748e297b9. GitHub Pages zakończył wdrożenie powodzeniem: https://github.com/T-U-R-Y-N/krolestwo-melodii-lary/actions/runs/43379847562 . Adres aplikacji pozostaje https://t-u-r-y-n.github.io/krolestwo-melodii-lary/ . Wynik kontroli publicznych plików i dokładne sumy są w tests/results-production.json paczki.
+
+Doprecyzowanie pełnego ekranu startu: manifest preferuje display_override fullscreen, z zapasem standalone; diagnostyka rozpoznaje oba tryby. Faktyczny wybór trybu przez Chrome na Androidzie wymaga odbioru urządzenia.
