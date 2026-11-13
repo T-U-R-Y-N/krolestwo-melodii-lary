@@ -1,4 +1,4 @@
-# Królestwo Melodii Lary · v0.9.0
+# Królestwo Melodii Lary · v0.9.1
 
 Aplikacja PWA do nauki pierwszych melodii na keyboardzie Yamaha PSR-74.
 
@@ -10,6 +10,10 @@ Repozytorium: https://github.com/T-U-R-Y-N/krolestwo-melodii-lary
 Kolaż Lary z małym, mieniącym się sercem na wejściu; 15 lekcji w pięciu poziomach; sześć kolęd; cztery polskie pieśni; śpiewniki; garderoba, ogród, własne melodie i dwa Występy Lusi. Białe róże zachowują osiem zwrotek i osiem przebiegów melodii.
 
 W v0.9.0 poprawiono nuty, oktawy, pauzy i tempo trzech utworów według PDF rodzica: Wojtuś (3/4, 96 BPM), Jagódki (2/4, 72 BPM), Bella ciao (2/4, 60 BPM). Bella ciao ma pełny tekst rodzica: sześć zwrotek i zakończenie. Pozostałe 22 utwory zachowują dane v0.8.5. Zgodność z dostarczonym PDF nie oznacza niezależnej recenzji muzycznej; starszy audyt pieśni pozostaje aktualny.
+
+## Pełne nuty utworu — v0.9.1
+
+W odtwarzaczu obok `📖 Tekst` jest teraz przycisk `🎼 Nuty`: otwiera przewijalny zapis całej melodii z lokalnego katalogu, podzielony na sekcje i frazy. Pokazuje wysokości w postaci oznaczeń klawiszy (C, D, E itd.), czasy trwania w uderzeniach i pauzy. Wspiera ustawienie polskie H/B. Nie jest to klasyczny pięcioliniowy zapis nutowy i nie stanowi niezależnej weryfikacji aranżacji. Własne teksty, śpiewnik, postępy i multimedia pozostają bez zmian.
 
 ## Instalacja i orientacja
 
