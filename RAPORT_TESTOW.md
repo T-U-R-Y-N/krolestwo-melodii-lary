@@ -1,76 +1,45 @@
-# Raport testów — Królestwo Melodii Lary v0.8.5
+# Raport testów · Królestwo Melodii Lary v0.9.0
 
-Data: 13 listopada 2026, Europe/Warsaw.
+Data: 13 listopada 2026, Europe/Warsaw. Dokładne identyfikatory publikacji i sumy plików są w RELEASE.json paczki przekazania. Nie modyfikowano repozytoriów SRC, JSM ani innych projektów.
 
-Stan publikacji: **WDROŻONO I SPRAWDZONO PUBLICZNIE**.
+## Testy automatyczne — PASS 42/42
 
-| Element | Potwierdzony stan |
+20 prób kodu aplikacji, 8 symulacji service workera, 14 prób modułu filmów i integralności danych. Źródła oraz pełne wyniki JSON są w paczce. Dwie próby plików filmowych wymagają opcjonalnych części; przy uruchomieniu samej paczki bez filmów są pomijane.
+
+| Obszar | Wynik i dowód |
 |---|---|
-| Aplikacja | https://t-u-r-y-n.github.io/krolestwo-melodii-lary/ |
-| Repozytorium | https://github.com/T-U-R-Y-N/krolestwo-melodii-lary — publiczne |
-| GitHub Pages | Deploy from a branch, `main`, `/ (root)` |
-| HTTPS | Wymuszone w ustawieniach Pages; publiczna strona i diagnostyka działają po HTTPS |
-| Commit aplikacji | `7659559f6216510f19e0a36ef60e01c84095f419` |
-| Pierwsze wdrożenie | GitHub Actions `43329665144`: completed / success |
-| Kompletność | Wszystkie 18 plików w repozytorium odpowiadają bajtowo sprawdzonym plikom lokalnym (porównano identyfikatory Git blob) |
+| Katalog | 15 lekcji, pięć poziomów, sześć kolęd, cztery polskie pieśni; 25 unikalnych ID |
+| Zachowanie istniejących treści | 22 niezmieniane utwory identyczne z wejściowym v0.8.5 |
+| Trzy korekty | Wojtuś, Jagódki i Bella ciao: wysokości, czasy, pauzy, tempo i forma porównane z transkrypcją PDF; sumy taktów zgodne z metrum |
+| Pełne odtwarzanie | Zegar przechodzi wszystkie zdarzenia trzech poprawionych utworów i 472 dźwięki Białych róż |
+| Białe róże | Osiem stron tekstu, osiem przebiegów melodii, 48 części i 512 zdarzeń |
+| Nawigacja | Ekran wejścia ma jeden przycisk; powrót z garderoby zachowuje piosenkę; kolaż pomijany w stosie powrotu |
+| Mikrofon | 25 syntetycznych wysokości, cisza, odmowa pozwolenia, start i zatrzymanie ścieżek po wyjściu |
+| Dane | Stary klucz, aliasy i eksport v1; wszystkie pola przeniesione między dwiema niezależnymi instancjami; błędny JSON nie niszczy stanu |
+| PWA | Manifest standalone, pionowy start kolażu, względne ID/scope/start, istniejące ikony |
+| SW | 14 zasobów, offline, zapas dla URL z parametrem, brak ingerencji w inne projekty i duże filmy |
+| Oryginalne filmy | Rozmiary i SHA-256 wszystkich ośmiu części oraz połączonych plików zgodne z oryginałami Drive |
+| Zapis filmów | Uszkodzone dane, anulowanie i błąd pamięci nie tworzą fałszywego statusu gotowości ani nie zastępują dobrej kopii |
+| Alternatywna pamięć | Sprawdzono awarię dużych rekordów, przejście do oddzielnego Cache Storage, odtworzenie bajtów, wykrycie brakujących części i usuwanie |
+| Orientacja | Logika wybiera portrait dla 720×1280 i landscape dla 1280×720; test z podstawionym API nie jest próbą rzeczywistego obrotu telefonu |
+| Tryb online | Te same sprawdzone bajty odtwarzane bez zapisu i bez deklarowania gotowości offline |
 
-Na publicznym adresie diagnostyka zwróciła HTTP 200 dla manifestu, ikon i `sw.js`; service worker ma stan `activated`, a sześć podstawowych plików znajduje się w pamięci offline. Manifest jest serwowany jako `application/manifest+json`, skrypt jako `application/javascript`. Zweryfikowano też otwarcie aplikacji i działanie podstawowej nawigacji po publikacji.
+## Próby w rzeczywistym Chrome
 
-## Wprowadzone poprawki
+- Otworzono kolaż i przejście sercem do menu, nową sekcję Występy Lusi oraz odtwarzacze.
+- Sprawdzono ramkę 832×384 i 384×832 CSS px. To symulacja rozmiaru, nie fizyczny Android.
+- Pierwszy film zapisano w pamięci urządzenia testowego; natywny odtwarzacz odczytał 21,108267 s i 720×1280 bez błędu.
+- Drugi film odtworzono w jakości oryginału w trybie online; odtwarzacz odczytał 207,963789 s, 480×854, readyState 4, postęp czasu i brak błędu dekodowania.
+- Przetestowano obsługę odmowy zapisu: duży film nie został błędnie oznaczony jako gotowy offline, mniejszy pozostał dostępny.
 
-- Naprawiono import własnych tekstów śpiewnika. Poprzedni kod eksportował `songbooks`, ale pomijał je przy odczycie JSON.
-- Zachowano klucz lokalnego zapisu i wersję formatu eksportu oraz zgodność ze starszymi plikami.
-- Diagnostyka sprawdza aktywnego service workera i obecność podstawowych plików w pamięci offline; samo pobranie `sw.js` nie jest już uznawane za dowód działania offline.
-- Instrukcja instalacji wskazuje docelowy GitHub Pages. Usunięto nieaktualne odwołanie do hostingu Netlify.
-- Doprecyzowano komunikaty braku/zajętości mikrofonu i błędów rejestracji offline.
-- Odświeżono wersję pamięci service workera oraz opis śpiewnika z czterema pieśniami.
+## Ograniczenie próby dużego filmu offline
 
-## Wyniki
+W zarządzanej przeglądarce testowej wystąpił QuotaExceededError po zapisaniu około 59 MB danych i próbie kolejnej części, mimo że API estimate zgłaszało znacznie większą kwotę. Sprawdzono mniejsze transakcje, zapis danych w częściach i osobny magazyn Cache Storage. Ta przeglądarka nadal odmówiła zapisania całego drugiego filmu. Nie potwierdzono przyczyny rozbieżności limitów na poziomie środowiska.
 
-| Obszar | Wynik | Sposób sprawdzenia |
-|---|---|---|
-| Nawigacja i pięć poziomów | PASS | Rzeczywiste kliknięcia w Chrome; 15 lekcji w pięciu poziomach |
-| Kolędy | PASS | Otwarcie i rozpoczęcie pełnego odtwarzania każdej z sześciu kolęd; pauza i powrót |
-| Polskie pieśni | PASS | Cztery ekrany odtwarzacza, wybór całości i otwarcie każdego śpiewnika |
-| Białe róże — tekst | PASS | Osiem zwrotek w danych i w wyświetlonym śpiewniku, także po zapisie przez edytor |
-| Białe róże — cała melodia | PASS | Osiem identycznych przebiegów; 512 zdarzeń. Symulacja zegara odtwarzacza dociera do końca 422 uderzeń i planuje wszystkie 472 dźwięki |
-| Zachowanie oryginalnych melodii | PASS | Porównanie całego katalogu nut, rytmów, temp, oktaw i aranżacji z załączonym HTML v0.8.5 — identyczne |
-| Śpiewnik i własne teksty | PASS | Edycja/zapis w interfejsie, import własnego tekstu i sprawdzenie jego obecności w wyeksportowanym pliku |
-| Garderoba | PASS | Zmiana fryzury i koloru sukienki, zachowanie po ponownym otwarciu strony |
-| Ulubione, kompozytor | PASS | Nawigacja po ulubionych, utworzenie i zapis melodii C–E–G |
-| Układ 832 × 384 | PASS w przeglądarce | Dokument aplikacji w ramce o dokładnym rozmiarze 832 × 384 CSS px, test orientacji poziomej. Klawiatura i przyciski mieszczą się wewnątrz ekranu |
-| Manifest i ścieżki | PASS lokalnie i publicznie | `id`, `start_url`, `scope` = `./`; `display: standalone`, `orientation: landscape`; obie wersje manifestu identyczne; pliki istnieją |
-| Ikony | PASS | PNG 192 × 192, 512 × 512, maskable 512 × 512 oraz favicon 48 × 48. Ikona maskable ma nieprzezroczyste tło |
-| Rzeczywisty service worker | PASS lokalnie i publicznie | Chrome: stan `activated`, diagnostyka potwierdza obecność sześciu podstawowych zasobów w Cache Storage |
-| Uruchomienie przy niedostępnym serwerze | PASS w Chrome | Zatrzymano serwer podglądu, połączenie HTTP zwracało `Connection refused`. Odświeżenie aplikacji uruchomiło ją z pamięci, pozwoliło otworzyć Białe róże i rozpocząć odtwarzanie |
-| Obsługa offline na ścieżce projektu | PASS w symulacji | Zdarzenia service workera pod adresem `/krolestwo-melodii-lary/`: dziewięć zasobów, manifest JSON, start z parametrem, odświeżanie online, pomijanie żądań POST i innych domen |
-| Eksport JSON | PASS w Chrome | Pobrano rzeczywisty plik; zweryfikowano format, wersję, kryształki, dwie własne melodie i tekst śpiewnika |
-| Import JSON | PASS w Chrome | Zaimportowano plik testowy, przywrócono 23 kryształki, oznaczenia H, wyłączenie solfeżu, melodię oraz własny tekst |
-| Zgodność danych między urządzeniami | PASS w teście logiki | Dwie niezależne instancje aplikacji: pełny eksport/import zachowuje wszystkie pola; stare identyfikatory migrują; starsze pliki bez `songbooks` są obsługiwane |
-| Odporność importu | PASS | Nieprawidłowy JSON nie zmienia istniejącego stanu |
-| Detektor dźwięku | PASS w teście syntetycznym | Sygnał sinusoidalny dla wszystkich 25 wspieranych wysokości G3–G5 i test ciszy; identyfikacja nut zgodna |
-| Uruchomienie/zatrzymanie nasłuchu | PASS w teście logiki | Symulacja lokalnego strumienia, odmowy zgody i zatrzymywania ścieżek po nawigacji |
-| Nagrania i postępy poza urządzeniem | PASS w przeglądzie kodu | Brak MediaRecorder, analityki, WebSocket, sendBeacon i zewnętrznych skryptów; fetch pobiera tylko pliki aplikacji. Wyjście do zewnętrznego śpiewnika następuje wyłącznie przez świadome kliknięcie linku |
-| Publiczny GitHub Pages i jego HTTPS | PASS | Publiczne repozytorium i aplikacja, udane wdrożenie GitHub Actions, `main` / root, wymuszone HTTPS i diagnostyka instalacji na publicznym adresie |
-| Instalacja i ikona na rzeczywistym Androidzie | NIE SPRAWDZONO | Brak dostępu do fizycznego urządzenia Android. Parametry manifestu są poprawne; nie są dowodem zakończonej instalacji |
-| Nasłuch rzeczywistego keyboardu przez telefon | NIE SPRAWDZONO | Środowisko testowe nie zapewnia mikrofonu telefonu i instrumentu. Sam wybór trybu oraz obsługę błędów sprawdzono, a detektor testowano syntetycznie |
+Kod obsługuje pełny zapis i jego błędy, a testy kontrolowane przechodzą, ale **nie deklarujemy zweryfikowanego działania obu pełnych filmów offline w rzeczywistym Chrome**. Pierwszy film można było zapisać, drugi obejrzano online. Na docelowym telefonie potrzebna jest próba obu pobrań, statusu Gotowy offline oraz ponownego odtworzenia w trybie samolotowym. Same pliki zajmują 124,2 MB, do pracy potrzebny jest zapas wolnego miejsca.
 
-Testy automatyczne logiki: **16/16**. Testy zdarzeń service workera: **7/7**. Dodatkowo wykonano testy interfejsu w Chrome 156 na Linux. Ekran w ramce weryfikuje rozmiar i orientację CSS, nie jest emulatorem systemu Android. Rzeczywisty eksport/import sprawdzono w profilu testowym; test dwóch instancji jest testem programowym, a nie testem dwóch fizycznych telefonów.
+## Czego nie potwierdzono
 
-## Ograniczenie dotyczące muzyki
+Instalacji z ikoną i braku paska na fizycznym Androidzie; automatycznego obrotu kolażu/filmów na tym urządzeniu; mikrofonu z prawdziwym Yamaha PSR-74; niezależnej poprawności muzycznej całych 25 opracowań. Kontrola API, manifestu i źródłowych nut nie zastępuje tych prób. Pełny ekran może wymagać zaufanego dotknięcia i może być ograniczony przez przeglądarkę lub osadzenie w ramce.
 
-Paczka źródłowa zgłasza niespójności sum wartości rytmicznych z metrum niektórych taktów pieśni patriotycznych. Zachowano oryginalne nuty i dołączony audyt. Ten raport potwierdza funkcjonowanie techniczne odtwarzacza, nie poprawność transkrypcji muzycznej ani zgodność hymnu z wykonaniem urzędowym.
-
-## Odbiór na Androidzie po publikacji
-
-1. Otworzyć publiczną stronę w Chrome, sprawdzić „Kącik rodzica → Sprawdź instalację”.
-2. Zainstalować przez Chrome i uruchomić z ikony; sprawdzić brak paska adresu, ikonę i poziomy układ.
-3. Po pierwszym uruchomieniu online zamknąć aplikację, wyłączyć połączenie i otworzyć ją z ikony ponownie; wybrać i odtworzyć piosenkę.
-4. Włączyć „Graj ze mną → Słucham, co grasz!”, udzielić zgody na mikrofon, sprawdzić poprawną i błędną nutę na keyboardzie oraz powtórzoną nutę po puszczeniu klawisza.
-5. Wyeksportować dane, przenieść plik i zaimportować na drugim telefonie. Nie usuwać wcześniejszej kopii przed potwierdzeniem przeniesienia.
-
-## Dokumentacja techniczna
-
-- https://web.dev/articles/install-criteria
-- https://developer.chrome.com/blog/update-install-criteria
-- https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+Znane rozbieżności metryczne pozostałych pieśni zachowano w audit-patriotic-meter.json. Własny śpiewnik rodzica ma pierwszeństwo przed nowym tekstem domyślnym.

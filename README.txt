@@ -1,3 +1,5 @@
+ARCHIWUM INSTRUKCJI v0.8.5. Aktualne instrukcje: README.md i CHANGELOG-v090.md.
+
 Królestwo Melodii Lary — v0.8.5 · Pakiet GitHub Pages
 
 Zmiany v0.8.5:

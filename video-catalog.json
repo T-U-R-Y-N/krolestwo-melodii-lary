@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "videos": [
+    {
+      "id": "lusi-1",
+      "title": "Występ Lusi 1",
+      "fileName": "VID-20261004-WA0012_1.mp4",
+      "mimeType": "video/mp4",
+      "bytes": 25722528,
+      "duration": 21.108267,
+      "width": 720,
+      "height": 1280,
+      "sha256": "0f6be510f3e4e8cf355a2e6f1b1745a6459b3415214868f6fdca983692d5210e",
+      "poster": "./assets/lusi-1.jpg",
+      "parts": [
+        {
+          "src": "./media/video-parts/lusi-1.part01.bin",
+          "bytes": 16777216,
+          "sha256": "6761cd85db0565de2edbdd1282863a81d8541d3de236036fb55c7695e1bb2a80"
+        },
+        {
+          "src": "./media/video-parts/lusi-1.part02.bin",
+          "bytes": 8945312,
+          "sha256": "c3f0e12bf140179c492bcffac1bb894f1e49081867d3e8780e2061949e4403a0"
+        }
+      ]
+    },
+    {
+      "id": "lusi-2",
+      "title": "Występ Lusi 2",
+      "fileName": "VID-20261030-WA0028.mp4",
+      "mimeType": "video/mp4",
+      "bytes": 98472404,
+      "duration": 207.963789,
+      "width": 480,
+      "height": 854,
+      "sha256": "9e5ed2d938805777537d4aa372ad57c83f55f9882b1f42edf760443508fcfb2c",
+      "poster": "./assets/lusi-2.jpg",
+      "parts": [
+        {
+          "src": "./media/video-parts/lusi-2.part01.bin",
+          "bytes": 16777216,
+          "sha256": "7edc3fd90a7f7f4386f9214b2ccbcc4be302c7797e95cad61f874a05b1ed7282"
+        },
+        {
+          "src": "./media/video-parts/lusi-2.part02.bin",
+          "bytes": 16777216,
+          "sha256": "96f1d86786b84cb14c598eb03567c8da2a490cef6a543caa2a9d4bb780283103"
+        },
+        {
+          "src": "./media/video-parts/lusi-2.part03.bin",
+          "bytes": 16777216,
+          "sha256": "abbea021c6292fc93d26c30d346d0084224d13cc75ad927cb9740567c1486ceb"
+        },
+        {
+          "src": "./media/video-parts/lusi-2.part04.bin",
+          "bytes": 16777216,
+          "sha256": "b27406bf615bf5465cb074d2de435be035a152458a642e7f49d833d83e2c0798"
+        },
+        {
+          "src": "./media/video-parts/lusi-2.part05.bin",
+          "bytes": 16777216,
+          "sha256": "68e2022933d960344539059f07a6bab89d6578b71ed77a84cb6fb578e88fe960"
+        },
+        {
+          "src": "./media/video-parts/lusi-2.part06.bin",
+          "bytes": 14586324,
+          "sha256": "c74de7915db50f80201068661da06e970f35319c2795e3c377ae9a40a1773168"
+        }
+      ]
+    }
+  ]
+}
